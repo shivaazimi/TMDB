@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.imdb.Adapter.RecyclerAdapter;
+import com.example.imdb.Adapter.ItemRecyclerAdapter;
 import com.example.imdb.Activity.MainActivity;
 import com.example.imdb.Model.Model;
 import com.example.imdb.R;
@@ -26,9 +26,9 @@ import java.util.ArrayList;
 public class GridRecyclerFragment extends Fragment {
 
 
-    public RecyclerView movieGridRecycler;
+    public RecyclerView recyclerView;
     public GridLayoutManager gridLayoutManager;
-    public RecyclerAdapter recyclerAdapter;
+    public ItemRecyclerAdapter recyclerAdapter;
     public TextView message;
     private ArrayList<Model> models;
     private OnLoadMoreListener mOnLoadMoreListener;
@@ -72,25 +72,25 @@ public class GridRecyclerFragment extends Fragment {
     @Override
     public void onViewCreated( View view,  Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        movieGridRecycler=view.findViewById(R.id.grid_recycler);
+        recyclerView =view.findViewById(R.id.grid_recycler);
         message=view.findViewById(R.id.message);
 
         if(models !=null) {
             //Grid Manager
             gridLayoutManager = new GridLayoutManager(getContext(), 2);
-            movieGridRecycler.setLayoutManager(gridLayoutManager);
+            recyclerView.setLayoutManager(gridLayoutManager);
 
             //RecycleView Adapter
-            recyclerAdapter = new RecyclerAdapter(getContext(), models);
-            movieGridRecycler.setAdapter(recyclerAdapter);
+            recyclerAdapter = new ItemRecyclerAdapter(getContext(), models);
+            recyclerView.setAdapter(recyclerAdapter);
 
             //item Animator
-            movieGridRecycler.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
 
             //item Decoration
-            movieGridRecycler.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(7), false));
+            recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(7), false));
 
-            movieGridRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -98,9 +98,7 @@ public class GridRecyclerFragment extends Fragment {
                     totalItemCount=gridLayoutManager.getItemCount();
                     lastVisibleItem=gridLayoutManager.findLastVisibleItemPosition();
 
-                    Log.i("onScroll","totalItemCount :"+totalItemCount+" lastVisibleItem : "+lastVisibleItem);
                     if(!loading && totalItemCount<=(lastVisibleItem+visibleThreshold)){
-                        Log.i("exceed threashold", "mustBeLoad");
                         if(mOnLoadMoreListener!=null){
                             mOnLoadMoreListener.onLoadMore();
                         }
@@ -110,12 +108,11 @@ public class GridRecyclerFragment extends Fragment {
 
             });
         }
-        movieGridRecycler.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
         message.setVisibility(View.VISIBLE);
     }
 
     public int dpToPx(int dp){
-        DisplayMetrics metrics=getResources().getDisplayMetrics();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dp,
                 getResources().getDisplayMetrics()));
 

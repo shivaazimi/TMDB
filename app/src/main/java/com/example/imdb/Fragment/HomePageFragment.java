@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.imdb.Adapter.RecyclerAdapter;
+import com.example.imdb.Adapter.ItemRecyclerAdapter;
 import com.example.imdb.Interface.OnLoadMoreListener;
 import com.example.imdb.Model.Celebrity;
 import com.example.imdb.Model.CelebrutyResult;
@@ -33,7 +33,7 @@ public class HomePageFragment extends Fragment {
 
     public RecyclerView recyclerView;
     public GridLayoutManager gridLayoutManager;
-    public RecyclerAdapter recyclerAdapter;
+    public ItemRecyclerAdapter recyclerAdapter;
     private ArrayList<Model> models;
     private OnLoadMoreListener mOnLoadMoreListener;
     public boolean loading;
@@ -84,7 +84,7 @@ public class HomePageFragment extends Fragment {
 
 
             //RecycleView Adapter
-            recyclerAdapter = new RecyclerAdapter(getContext(), models);
+            recyclerAdapter = new ItemRecyclerAdapter(getContext(), models);
             recyclerView.setAdapter(recyclerAdapter);
 
             getData(true);

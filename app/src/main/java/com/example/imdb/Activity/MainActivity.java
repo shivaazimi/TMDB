@@ -136,13 +136,13 @@ public class MainActivity extends AppCompatActivity {
                         loadedPage = 1;
                         getMovies();
                         gridFragment.message.setVisibility(View.GONE);
-                        gridFragment.movieGridRecycler.setVisibility(View.VISIBLE);
+                        gridFragment.recyclerView.setVisibility(View.VISIBLE);
                     } else {
                         //Movie not found
                         progressDialog.dismiss();
                         gridFragment.message.setText("No movies found. Try again.");
                         gridFragment.message.setVisibility(View.VISIBLE);
-                        gridFragment.movieGridRecycler.setVisibility(View.GONE);
+                        gridFragment.recyclerView.setVisibility(View.GONE);
                     }
                 }
 
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     gridFragment.message.setText("Query request failed. Try again");
                     gridFragment.message.setVisibility(View.VISIBLE);
-                    gridFragment.movieGridRecycler.setVisibility(View.GONE);
+                    gridFragment.recyclerView.setVisibility(View.GONE);
                 }
             });
         } else {

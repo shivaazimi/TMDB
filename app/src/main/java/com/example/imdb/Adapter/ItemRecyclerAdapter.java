@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ItemRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static final int LoadingType = 0;
     public static final int MovieType = 1;
@@ -27,7 +27,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public Context context;
     public ArrayList<Model> list;
 
-    public RecyclerAdapter(Context context, ArrayList<Model> list) {
+    public ItemRecyclerAdapter(Context context, ArrayList<Model> list) {
         this.context = context;
         this.list = list;
     }
@@ -52,23 +52,38 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof MovieViewHolder) {
-            Movie movie = (Movie) list.get(position);
-            MovieViewHolder movieViewHolder = (MovieViewHolder) holder;
-            Picasso.with(context).load(movie.getPoster()).fit().into(movieViewHolder.poster);
-            movieViewHolder.title.setText(movie.getTitle());
-            movieViewHolder.description.setText(movie.getPlot());
-        } else if (holder instanceof LoadingViewHolder) {
-            LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
-            loadingViewHolder.progressBar.setIndeterminate(true);
-        }else if(holder instanceof  CelebrityViewHolder){
-            Celebrity celebrity=(Celebrity) list.get(position);
-            CelebrityViewHolder celebrityViewHolder=(CelebrityViewHolder)holder;
-            String profilePath="https://image.tmdb.org/t/p/original"+celebrity.getProfilePath();
-            Picasso.with(context).load(profilePath).fit().into(celebrityViewHolder.portrait);
-            celebrityViewHolder.name.setText(celebrity.getName());
-            celebrityViewHolder.score.setText("Popularity : "+celebrity.getPopularity()+"");
+        if (holder instanceof MovieViewHolder)
+        {
+            setUpMovieViewHolder(holder, position);
+        } else if (holder instanceof LoadingViewHolder)
+        {
+            setUpLoadingViewHolder(holder);
+        } else if (holder instanceof CelebrityViewHolder)
+        {
+            setUpCelebrityViewHolder(holder, position);
         }
+    }
+
+    public void setUpMovieViewHolder(RecyclerView.ViewHolder holder, int position) {
+        Movie movie = (Movie) list.get(position);
+        MovieViewHolder movieViewHolder = (MovieViewHolder) holder;
+        Picasso.with(context).load(movie.getPoster()).fit().into(movieViewHolder.poster);
+        movieViewHolder.title.setText(movie.getTitle());
+        movieViewHolder.description.setText(movie.getPlot());
+    }
+
+    public void setUpLoadingViewHolder(RecyclerView.ViewHolder holder) {
+        LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
+        loadingViewHolder.progressBar.setIndeterminate(true);
+    }
+
+    public void setUpCelebrityViewHolder(RecyclerView.ViewHolder holder, int position) {
+        Celebrity celebrity = (Celebrity) list.get(position);
+        CelebrityViewHolder celebrityViewHolder = (CelebrityViewHolder) holder;
+        String profilePath = "https://image.tmdb.org/t/p/original" + celebrity.getProfilePath();
+        Picasso.with(context).load(profilePath).fit().into(celebrityViewHolder.portrait);
+        celebrityViewHolder.name.setText(celebrity.getName());
+        celebrityViewHolder.score.setText("Popularity : " + celebrity.getPopularity() + "");
     }
 
     @Override
@@ -90,6 +105,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public LoadingViewHolder(View itemView) {
             super(itemView);
             progressBar = (ProgressBar) itemView.findViewById(R.id.progress_bar);
+            progressBar.getIndeterminateDrawable().setColorFilter(0xFFFF0000, android.graphics.PorterDuff.Mode.MULTIPLY);
         }
     }
 
