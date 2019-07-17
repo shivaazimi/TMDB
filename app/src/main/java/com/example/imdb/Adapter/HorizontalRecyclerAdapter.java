@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ItemRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static final int LoadingType = 0;
     public static final int MovieType = 1;
@@ -27,7 +27,7 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public Context context;
     public ArrayList<Model> list;
 
-    public ItemRecyclerAdapter(Context context, ArrayList<Model> list) {
+    public HorizontalRecyclerAdapter(Context context, ArrayList<Model> list) {
         this.context = context;
         this.list = list;
     }

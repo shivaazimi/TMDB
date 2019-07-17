@@ -6,15 +6,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.imdb.Adapter.ItemRecyclerAdapter;
+import com.example.imdb.Adapter.HorizontalRecyclerAdapter;
 import com.example.imdb.Activity.MainActivity;
 import com.example.imdb.Model.Model;
 import com.example.imdb.R;
@@ -28,7 +26,7 @@ public class GridRecyclerFragment extends Fragment {
 
     public RecyclerView recyclerView;
     public GridLayoutManager gridLayoutManager;
-    public ItemRecyclerAdapter recyclerAdapter;
+    public HorizontalRecyclerAdapter recyclerAdapter;
     public TextView message;
     private ArrayList<Model> models;
     private OnLoadMoreListener mOnLoadMoreListener;
@@ -81,7 +79,7 @@ public class GridRecyclerFragment extends Fragment {
             recyclerView.setLayoutManager(gridLayoutManager);
 
             //RecycleView Adapter
-            recyclerAdapter = new ItemRecyclerAdapter(getContext(), models);
+            recyclerAdapter = new HorizontalRecyclerAdapter(getContext(), models);
             recyclerView.setAdapter(recyclerAdapter);
 
             //item Animator
