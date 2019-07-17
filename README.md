@@ -1,1 +1,1 @@
-full ndroid App of IMDB  implemented by TMDB 
+full android App of IMDB  implemented by TMDB 
