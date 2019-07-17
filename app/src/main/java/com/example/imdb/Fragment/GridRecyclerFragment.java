@@ -14,12 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.imdb.Adapter.GridRecyclerAdapter;
+import com.example.imdb.Adapter.RecyclerAdapter;
 import com.example.imdb.Activity.MainActivity;
-import com.example.imdb.Model.Movie;
+import com.example.imdb.Model.Model;
 import com.example.imdb.R;
 import com.example.imdb.Utility.GridSpacingItemDecoration;
-import com.example.imdb.Utility.OnLoadMoreListener;
+import com.example.imdb.Interface.OnLoadMoreListener;
 
 import java.util.ArrayList;
 
@@ -28,9 +28,9 @@ public class GridRecyclerFragment extends Fragment {
 
     public RecyclerView movieGridRecycler;
     public GridLayoutManager gridLayoutManager;
-    public GridRecyclerAdapter gridRecyclerAdapter;
+    public RecyclerAdapter recyclerAdapter;
     public TextView message;
-    private ArrayList<Movie> movies;
+    private ArrayList<Model> models;
     private OnLoadMoreListener mOnLoadMoreListener;
     public boolean loading;
     public int totalItemCount;
@@ -60,14 +60,13 @@ public class GridRecyclerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_grid_recycler, container, false);
+        return inflater.inflate(R.layout.grid_recycler, container, false);
     }
-
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        movies= MainActivity.movies;
+        models = MainActivity.movies;
     }
 
     @Override
@@ -76,14 +75,14 @@ public class GridRecyclerFragment extends Fragment {
         movieGridRecycler=view.findViewById(R.id.grid_recycler);
         message=view.findViewById(R.id.message);
 
-        if(movies!=null) {
+        if(models !=null) {
             //Grid Manager
             gridLayoutManager = new GridLayoutManager(getContext(), 2);
             movieGridRecycler.setLayoutManager(gridLayoutManager);
 
             //RecycleView Adapter
-            gridRecyclerAdapter = new GridRecyclerAdapter(getContext(), movies);
-            movieGridRecycler.setAdapter(gridRecyclerAdapter);
+            recyclerAdapter = new RecyclerAdapter(getContext(), models);
+            movieGridRecycler.setAdapter(recyclerAdapter);
 
             //item Animator
             movieGridRecycler.setItemAnimator(new DefaultItemAnimator());
@@ -127,7 +126,6 @@ public class GridRecyclerFragment extends Fragment {
         super.onDetach();
         mOnLoadMoreListener = null;
     }
-
 
     public void setLoaded(){
         loading=false;

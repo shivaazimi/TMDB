@@ -1,5 +1,6 @@
 package com.example.imdb.Retrofit;
 
+import com.example.imdb.Model.CelebrutyResult;
 import com.example.imdb.Model.Movie;
 import com.example.imdb.Model.SearchResult;
 
@@ -11,33 +12,51 @@ import retrofit2.http.Query;
 
 public interface ApiCall {
 
-    String BASE_URL = "http://www.omdbapi.com";
-    String API_KEY="?apikey="+"36b6dc1f"+"&";
+    //OMDB
+    String OMDB_BASE_URL = "http://www.omdbapi.com";
+    String OMDB_API_KEY ="?apikey="+"36b6dc1f"+"&";
 
-
-    @GET("/"+API_KEY)
+    @GET("/"+ OMDB_API_KEY)
     Call<SearchResult> search(@Query("s") String query, @Query("type") String type, @Query("page") int page);
 
-    @GET("/"+API_KEY)
+    @GET("/"+ OMDB_API_KEY)
     Call<Movie> getMovie(@Query("i") String imdbId);
+
+
+    //TMDB
+    String TMDB_BASE_URL="https://api.themoviedb.org/3/";
+    String TMDB_API_KEY="?api_key="+"424071afff63d5e333e67ffc70d38502"+"&";
+
+    @GET("person/popular/"+ TMDB_API_KEY)
+    Call<CelebrutyResult> popularPerson(@Query("page") int page);
 
 
 
     class Factory {
-        public static ApiCall service;
+        public static ApiCall omdb;
+        public static ApiCall tmdb;
 
-        public static ApiCall getInstance() {
-            if (service == null) {
+        public static ApiCall OMDB() {
+            if (omdb == null) {
                 Retrofit retrofit = new Retrofit.Builder()
-                        .addConverterFactory(GsonConverterFactory.create()).baseUrl(BASE_URL).build();
-                service = retrofit.create(ApiCall.class);
-                return service;
+                        .addConverterFactory(GsonConverterFactory.create()).baseUrl(OMDB_BASE_URL).build();
+                omdb = retrofit.create(ApiCall.class);
+                return omdb;
             } else {
-                return service;
+                return omdb;
             }
         }
 
-
+        public static ApiCall TMDB() {
+            if (tmdb == null) {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .addConverterFactory(GsonConverterFactory.create()).baseUrl(TMDB_BASE_URL).build();
+                tmdb = retrofit.create(ApiCall.class);
+                return tmdb;
+            } else {
+                return tmdb;
+            }
+        }
     }
 }
 
