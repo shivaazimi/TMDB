@@ -2,7 +2,6 @@ package com.example.imdb.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,10 +39,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.progress_bar_item, parent, false);
                 return new LoadingViewHolder(view);
             case MovieType:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_recycle_item, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_recycler_item, parent, false);
                 return new MovieViewHolder(view);
             case CelebrityType:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.celebrity_recycle_item, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.celebrity_recycler_item, parent, false);
                 return new CelebrityViewHolder(view);
 
         }
