@@ -1,11 +1,20 @@
 package com.example.imdb.Model;
 
+import android.view.Display;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ParentModel {
     private String title;
-    private ArrayList<Model> models;
+    private List<Model> models;
+
+    public enum Type{
+        Movie,
+        Celebrity,
+        TVShow,
+    }
+    public Type type;
 
     public void setTitle(String title) {
         this.title = title;
@@ -15,11 +24,11 @@ public class ParentModel {
         return title;
     }
 
-    public void setModels(ArrayList<Model> models) {
+    public void setModels(List<Model> models) {
         this.models = models;
     }
 
-    public ArrayList<Model> getModels() {
+    public List<Model> getModels() {
         return models;
     }
 

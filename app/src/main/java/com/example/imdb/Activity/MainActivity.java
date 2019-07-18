@@ -17,7 +17,7 @@ import com.example.imdb.Adapter.ViewPagerAdapter;
 import com.example.imdb.Fragment.GridRecyclerFragment;
 import com.example.imdb.Fragment.HomePageFragment;
 import com.example.imdb.Model.Model;
-import com.example.imdb.Model.Movie;
+import com.example.imdb.Model.OMDBMovie;
 import com.example.imdb.Model.SearchResult;
 import com.example.imdb.R;
 import com.example.imdb.Retrofit.ApiCall;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public GridRecyclerFragment gridFragment;
     public HomePageFragment homePageFragment;
 
-    //Movie Tab
+    //OMDBMovie Tab
     public static ArrayList<Model> movies;
     public SearchResult searchResult;
     public final String TAG="MainActivity";
@@ -132,13 +132,13 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
                     searchResult = response.body();
                     if (searchResult.getResponse().equals("True")) {
-                        //Movie Found
+                        //OMDBMovie Found
                         loadedPage = 1;
                         getMovies();
                         gridFragment.message.setVisibility(View.GONE);
                         gridFragment.recyclerView.setVisibility(View.VISIBLE);
                     } else {
-                        //Movie not found
+                        //OMDBMovie not found
                         progressDialog.dismiss();
                         gridFragment.message.setText("No movies found. Try again.");
                         gridFragment.message.setVisibility(View.VISIBLE);
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
                         searchResult = response.body();
                         if (searchResult.getResponse().equals("True")) {
-                            //Movie Found
+                            //OMDBMovie Found
                             getMovies();
                         } else {
                             //Reached End
@@ -192,9 +192,9 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < searchResult.getSearch().size(); i++)
         {
             String imdbId = searchResult.getSearch().get(i).getImdbID();
-            ApiCall.Factory.OMDB().getMovie(imdbId).enqueue(new Callback<Movie>() {
+            ApiCall.Factory.OMDB().getMovie(imdbId).enqueue(new Callback<OMDBMovie>() {
                 @Override
-                public void onResponse(Call<Movie> call, Response<Movie> response) {
+                public void onResponse(Call<OMDBMovie> call, Response<OMDBMovie> response) {
                     movies.add(response.body());
                     gridFragment.recyclerAdapter.notifyItemInserted(movies.size() - 1);
                     count[0]++;
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Movie> call, Throwable t) {
+                public void onFailure(Call<OMDBMovie> call, Throwable t) {
                     Log.e(TAG, "Failure : " + t.getMessage());
                     count[0]++;
                    isDataFetchComplete(count[0]);

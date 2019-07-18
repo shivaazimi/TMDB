@@ -1,7 +1,8 @@
 package com.example.imdb.Retrofit;
 
-import com.example.imdb.Model.CelebrutyResult;
-import com.example.imdb.Model.Movie;
+import com.example.imdb.Model.CelebrityResult;
+import com.example.imdb.Model.MovieResult;
+import com.example.imdb.Model.OMDBMovie;
 import com.example.imdb.Model.SearchResult;
 
 import retrofit2.Call;
@@ -20,7 +21,7 @@ public interface ApiCall {
     Call<SearchResult> search(@Query("s") String query, @Query("type") String type, @Query("page") int page);
 
     @GET("/"+ OMDB_API_KEY)
-    Call<Movie> getMovie(@Query("i") String imdbId);
+    Call<OMDBMovie> getMovie(@Query("i") String imdbId);
 
 
     //TMDB
@@ -28,8 +29,13 @@ public interface ApiCall {
     String TMDB_API_KEY="?api_key="+"424071afff63d5e333e67ffc70d38502"+"&";
 
     @GET("person/popular/"+ TMDB_API_KEY)
-    Call<CelebrutyResult> popularPerson(@Query("page") int page);
+    Call<CelebrityResult> popularPerson(@Query("page") int page);
 
+    @GET("movie/popular"+TMDB_API_KEY)
+    Call<MovieResult> poularMovie(@Query("page") int page);
+
+    @GET("tv/popular"+TMDB_API_KEY)
+    Call<TVShowResult> poularTVShow(@Query("page") int page);
 
 
     class Factory {

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.imdb.Model.Celebrity;
 import com.example.imdb.Model.Model;
-import com.example.imdb.Model.Movie;
+import com.example.imdb.Model.OMDBMovie;
 import com.example.imdb.R;
 import com.squareup.picasso.Picasso;
 
@@ -65,7 +65,7 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     public void setUpMovieViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Movie movie = (Movie) list.get(position);
+        OMDBMovie movie = (OMDBMovie) list.get(position);
         MovieViewHolder movieViewHolder = (MovieViewHolder) holder;
         Picasso.with(context).load(movie.getPoster()).fit().into(movieViewHolder.poster);
         movieViewHolder.title.setText(movie.getTitle());
