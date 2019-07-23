@@ -1,11 +1,13 @@
 package com.example.imdb.Model;
 
+import android.view.Display;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class TVShow {
+public class TVShow extends Model {
 
     @SerializedName("original_name")
     @Expose
@@ -46,6 +48,10 @@ public class TVShow {
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
+
+    public TVShow( ) {
+        super(TVSHOW_TYPE);
+    }
 
     public String getOriginalName() {
         return originalName;

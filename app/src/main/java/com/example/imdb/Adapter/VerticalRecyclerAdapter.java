@@ -5,6 +5,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,7 @@ public class VerticalRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_recycler, parent);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_recycler, parent,false);
         return new VerticalViewHolder(view);
     }
 
@@ -57,11 +58,13 @@ public class VerticalRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         //item Decoration
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(7), false));
+
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public int getItemCount() {
-        return models.size();
+        return models==null ? 0 : models.size();
     }
 
 

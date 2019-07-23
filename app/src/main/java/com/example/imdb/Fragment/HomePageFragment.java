@@ -1,6 +1,7 @@
 package com.example.imdb.Fragment;
 
 import android.content.Context;
+import android.media.tv.TvContentRating;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,10 +18,10 @@ import com.example.imdb.Adapter.VerticalRecyclerAdapter;
 import com.example.imdb.Interface.OnLoadMoreListener;
 import com.example.imdb.Model.Celebrity;
 import com.example.imdb.Model.CelebrityResult;
-import com.example.imdb.Model.Model;
 import com.example.imdb.Model.MovieResult;
 import com.example.imdb.Model.ParentModel;
 import com.example.imdb.Model.TMDBMovie;
+import com.example.imdb.Model.TVShow;
 import com.example.imdb.Model.TVShowResult;
 import com.example.imdb.R;
 import com.example.imdb.Retrofit.ApiCall;
@@ -39,8 +40,15 @@ public class HomePageFragment extends Fragment {
     public GridLayoutManager gridLayoutManager;
     public VerticalRecyclerAdapter recyclerAdapter;
     private ArrayList<ParentModel> models;
+
     MovieResult movieResult;
-    CelebrityResult celebrutyResult;
+    CelebrityResult celebrityResult;
+    TVShowResult tvShowResult;
+
+    ArrayList<TMDBMovie> tmbdmMovies;
+    ArrayList<Celebrity> celebrities;
+    ArrayList<TVShow> tvShows;
+
     private OnLoadMoreListener mOnLoadMoreListener;
 
 
@@ -64,8 +72,8 @@ public class HomePageFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        initialize();
     }
 
     @Override
@@ -77,6 +85,8 @@ public class HomePageFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.vertical_recycler);
+
+        initialize();
 
         if (models != null) {
             //Grid Manager
@@ -96,7 +106,7 @@ public class HomePageFragment extends Fragment {
             recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(7), false));
 
         }
-        recyclerView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     public void initialize() {
@@ -114,70 +124,87 @@ public class HomePageFragment extends Fragment {
                     model.setModels(getCelebrities());
                     break;
                 case TVShow:
-                    model.setTitle(ParentModel.Type.Celebrity + "");
-                    model.setModels(getCelebrities());
+                    model.setTitle(ParentModel.Type.TVShow + "");
+                    model.setModels(getTVShows());
 
             }
+//            model.setTitle(type+"");
+            models.add(model);
         }
-        models.add(new ParentModel());
     }
 
 
     public List getMovies() {
+        Log.d("RESPONSE", "BEFORE");
         loadedPage = 1;
-        ApiCall.Factory.TMDB().poularMovie(1).enqueue(new Callback<MovieResult>() {
+        tmbdmMovies=new ArrayList<>();
+        ApiCall.Factory.TMDB().popularMovie(loadedPage).enqueue(new Callback<MovieResult>() {
             @Override
             public void onResponse(Call<MovieResult> call, Response<MovieResult> response) {
-                movieResult = response.body();
+                Log.d("RESPONSE Movie", response.isSuccessful() + "");
+                MovieResult movieResult = response.body();
+
+                for(TMDBMovie tmdbMovie:movieResult.getResults())
+                    tmbdmMovies.add(tmdbMovie);
             }
 
             @Override
             public void onFailure(Call<MovieResult> call, Throwable t) {
+                Log.d("onFailure", "MovieResult");
 
             }
         });
-        if (movieResult != null)
-            return movieResult.getResults();
-        else
-            return null;
+        return tmbdmMovies;
     }
 
+
     public List getCelebrities() {
+        Log.d("CELEBRITY", "BEFORE");
         loadedPage = 1;
+        celebrities=new ArrayList<>();
         ApiCall.Factory.TMDB().popularPerson(loadedPage).enqueue(new Callback<CelebrityResult>() {
 
             @Override
             public void onResponse(Call<CelebrityResult> call, Response<CelebrityResult> response) {
-                celebrutyResult = response.body();
+                Log.d("RESPONSE CELEBRITY", response.isSuccessful() + "");
+                celebrityResult = response.body();
+//                Log.d("getData ",celebrityResult.getResults().size()+"");
+
+                for(Celebrity celebrity:celebrityResult.getResults())
+                    celebrities.add(celebrity);
             }
 
             @Override
             public void onFailure(Call<CelebrityResult> call, Throwable t) {
+                Log.d("onFailure", "CelebrityResult");
             }
         });
-        if (movieResult != null)
-            return movieResult.getResults();
-        else
-            return null;
+        Log.d("CELEBRITY", "AFTER");
+        return celebrities;
     }
 
-    public List getTVShow() {
+
+    public List getTVShows() {
+        Log.d("TVShow", "BEFORE");
         loadedPage = 1;
-        ApiCall.Factory.TMDB().poularTVShow(loadedPage).enqueue(new Callback<TVShowResult>() {
+        tvShows=new ArrayList<>();
+        ApiCall.Factory.TMDB().popularTVShow(loadedPage).enqueue(new Callback<TVShowResult>() {
             @Override
             public void onResponse(Call<TVShowResult> call, Response<TVShowResult> response) {
+                Log.d("RESPONSE TVShow", response.isSuccessful() + "");
+                tvShowResult = response.body();
 
+                for(TVShow tvShow:tvShowResult.getResults())
+                    tvShows.add(tvShow);
             }
 
             @Override
             public void onFailure(Call<TVShowResult> call, Throwable t) {
 
+                Log.d("ONFAILURE", "TVShowResult");
             }
-        }
-        if (movieResult != null)
-            return movieResult.getResults();
-        else
-            return null;
+        });
+        return tvShows;
     }
 
 

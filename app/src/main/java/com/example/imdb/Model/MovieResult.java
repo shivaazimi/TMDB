@@ -1,7 +1,4 @@
 package com.example.imdb.Model;
-
-import android.graphics.Movie;
-
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -54,6 +51,5 @@ public class MovieResult {
     }
 
 }
-
 
 

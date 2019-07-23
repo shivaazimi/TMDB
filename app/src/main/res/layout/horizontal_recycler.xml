@@ -15,7 +15,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:textSize="22sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -24,7 +25,9 @@
             android:layout_alignParentTop="true"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:text="See All" />
+            android:textColor="#03A9F4"
+            android:text="See All"
+            android:layout_marginRight="10dp"/>
 
         <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/horizontal_recycler"
@@ -32,7 +35,8 @@
             android:layout_height="wrap_content"
             android:scrollbars="horizontal"
             android:orientation="horizontal"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            android:paddingTop="10dp">
         </android.support.v7.widget.RecyclerView>
 
     </RelativeLayout>

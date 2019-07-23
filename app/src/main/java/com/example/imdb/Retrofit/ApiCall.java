@@ -4,6 +4,7 @@ import com.example.imdb.Model.CelebrityResult;
 import com.example.imdb.Model.MovieResult;
 import com.example.imdb.Model.OMDBMovie;
 import com.example.imdb.Model.SearchResult;
+import com.example.imdb.Model.TVShowResult;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -28,14 +29,15 @@ public interface ApiCall {
     String TMDB_BASE_URL="https://api.themoviedb.org/3/";
     String TMDB_API_KEY="?api_key="+"424071afff63d5e333e67ffc70d38502"+"&";
 
-    @GET("person/popular/"+ TMDB_API_KEY)
+    @GET("person/popular"+ TMDB_API_KEY)
     Call<CelebrityResult> popularPerson(@Query("page") int page);
 
-    @GET("movie/popular"+TMDB_API_KEY)
-    Call<MovieResult> poularMovie(@Query("page") int page);
+    @GET("movie/popular"+ TMDB_API_KEY)
+    Call<MovieResult> popularMovie(@Query("page") int page);
+
 
     @GET("tv/popular"+TMDB_API_KEY)
-    Call<TVShowResult> poularTVShow(@Query("page") int page);
+    Call<TVShowResult> popularTVShow(@Query("page") int page);
 
 
     class Factory {

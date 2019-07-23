@@ -1,0 +1,12 @@
+package com.example.imdb.Utility;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+
+public class NetworkUtility {
+
+    public static boolean isNetworkConnected(Context context){
+        ConnectivityManager connectivityManager=(ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return connectivityManager.getActiveNetworkInfo()!=null;
+    }
+}

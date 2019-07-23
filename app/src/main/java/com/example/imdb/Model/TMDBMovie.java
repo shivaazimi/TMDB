@@ -1,8 +1,10 @@
 package com.example.imdb.Model;
 
+import android.view.Display;
+
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import java.util.List;
 
 public class TMDBMovie extends Model {
 
@@ -17,7 +19,7 @@ public class TMDBMovie extends Model {
     private Boolean video;
     @SerializedName("vote_average")
     @Expose
-    private Integer voteAverage;
+    private Double voteAverage;
     @SerializedName("title")
     @Expose
     private String title;
@@ -49,9 +51,10 @@ public class TMDBMovie extends Model {
     @Expose
     private String releaseDate;
 
-    public TMDBMovie() {
+    public TMDBMovie( ) {
         super(TMDB_MOVIE);
     }
+
 
     public Integer getVoteCount() {
         return voteCount;
@@ -77,11 +80,11 @@ public class TMDBMovie extends Model {
         this.video = video;
     }
 
-    public Integer getVoteAverage() {
+    public Double getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(Integer voteAverage) {
+    public void setVoteAverage(Double voteAverage) {
         this.voteAverage = voteAverage;
     }
 

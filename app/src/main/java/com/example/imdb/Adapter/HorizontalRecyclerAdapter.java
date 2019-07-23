@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.example.imdb.Model.Celebrity;
 import com.example.imdb.Model.Model;
 import com.example.imdb.Model.OMDBMovie;
+import com.example.imdb.Model.TMDBMovie;
+import com.example.imdb.Model.TVShow;
 import com.example.imdb.R;
 import com.squareup.picasso.Picasso;
 
@@ -22,7 +24,8 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
     public static final int LoadingType = 0;
     public static final int MovieType = 1;
     public static final int CelebrityType = 2;
-    public static final int SeriesType = 3;
+    public static final int TVShowType = 3;
+    public static final int TMDBMovieTye=4;
 
     public Context context;
     public ArrayList<Model> list;
@@ -44,7 +47,12 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
             case CelebrityType:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.celebrity_recycler_item, parent, false);
                 return new CelebrityViewHolder(view);
-
+            case TMDBMovieTye:
+                view=LayoutInflater.from(parent.getContext()).inflate(R.layout.tmdb_movie_recycler_item,parent,false);
+                return new MovieViewHolder(view);
+            case TVShowType:
+                view=LayoutInflater.from(parent.getContext()).inflate(R.layout.tvshow_recycler_item,parent,false);
+                return new TVShowViewHolder(view);
         }
         return null;
     }
@@ -54,22 +62,48 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MovieViewHolder)
         {
-            setUpMovieViewHolder(holder, position);
+            if(list.get(position).TYPE==MovieType)
+                setUpOMDBMovie(holder,position);
+            if(list.get(position).TYPE==TMDBMovieTye)
+                setUpTMDBMovie(holder,position);
+
         } else if (holder instanceof LoadingViewHolder)
         {
             setUpLoadingViewHolder(holder);
         } else if (holder instanceof CelebrityViewHolder)
         {
             setUpCelebrityViewHolder(holder, position);
-        }
+        }else if(holder instanceof TVShowViewHolder)
+            setUpTVShow(holder,position);
     }
 
-    public void setUpMovieViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+
+    public void setUpTMDBMovie(RecyclerView.ViewHolder holder, int position){
+        TMDBMovie movie = (TMDBMovie) list.get(position);
+        MovieViewHolder movieViewHolder = (MovieViewHolder) holder;
+        String posterPath = "https://image.tmdb.org/t/p/original" + movie.getPosterPath();
+        Picasso.with(context).load(posterPath).fit().into(movieViewHolder.poster);
+        movieViewHolder.title.setText(movie.getTitle());
+        movieViewHolder.description.setText(movie.getOverview());
+    }
+
+
+    public void setUpOMDBMovie(RecyclerView.ViewHolder holder,int position){
         OMDBMovie movie = (OMDBMovie) list.get(position);
         MovieViewHolder movieViewHolder = (MovieViewHolder) holder;
         Picasso.with(context).load(movie.getPoster()).fit().into(movieViewHolder.poster);
         movieViewHolder.title.setText(movie.getTitle());
         movieViewHolder.description.setText(movie.getPlot());
+    }
+
+    public void setUpTVShow(RecyclerView.ViewHolder holder, int position){
+        TVShow tvShow = (TVShow) list.get(position);
+        TVShowViewHolder movieViewHolder = (TVShowViewHolder) holder;
+        String posterPath = "https://image.tmdb.org/t/p/original" + tvShow.getPosterPath();
+        Picasso.with(context).load(posterPath).fit().into(movieViewHolder.poster);
+        movieViewHolder.name.setText(tvShow.getName());
+        movieViewHolder.overview.setText(tvShow.getOverview());
     }
 
     public void setUpLoadingViewHolder(RecyclerView.ViewHolder holder) {
@@ -132,6 +166,19 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
             portrait = (ImageView) itemView.findViewById(R.id.poster);
             name = (TextView) itemView.findViewById(R.id.title);
             score = (TextView) itemView.findViewById(R.id.description);
+        }
+    }
+
+    static class TVShowViewHolder extends RecyclerView.ViewHolder{
+
+        ImageView poster;
+        TextView name, overview;
+
+        public TVShowViewHolder(View itemView) {
+            super(itemView);
+            poster = (ImageView) itemView.findViewById(R.id.poster);
+            name = (TextView) itemView.findViewById(R.id.name);
+            overview = (TextView) itemView.findViewById(R.id.overview);
         }
     }
 
